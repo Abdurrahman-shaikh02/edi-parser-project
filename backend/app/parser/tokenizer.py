@@ -6,20 +6,44 @@ class Tokenizer:
 
     def detect_delimiters(self, content: str):
         """
-        Detect separators using ISA segment
+        Robust delimiter detection from ISA segment
         """
         if content.startswith("ISA"):
+            # Element separator is always the 4th character
             self.element_sep = content[3]
-            self.sub_element_sep = content[104]
-            self.segment_sep = content[105]
+    
+            # ISA segment ends with segment separator → find it dynamically
+            isa_end = content.find("ISA")
+            first_segment = content.split('\n')[0]
+    
+            # Last character of ISA segment is segment separator
+            if '~' in first_segment:
+                self.segment_sep = '~'
+            else:
+                # fallback: find first non-alphanumeric after ISA
+                for ch in content:
+                    if not ch.isalnum() and ch not in [' ', '*', ':']:
+                        self.segment_sep = ch
+                        break
 
+            # Sub-element separator = last char before segment separator
+            parts = first_segment.split(self.element_sep)
+            if parts:
+                last_part = parts[-1]
+                if last_part:
+                    self.sub_element_sep = last_part[0]
+    
     def split_segments(self, content: str):
         """
-        Split raw EDI into segments
+        Split raw EDI into segments (handles newlines properly)
         """
         self.detect_delimiters(content)
 
+        # 🔥 Normalize newlines (critical fix)
+        content = content.replace('\n', '').replace('\r', '')
+    
         segments = content.split(self.segment_sep)
+
         return [seg.strip() for seg in segments if seg.strip()]
 
     def split_elements(self, segment: str):
