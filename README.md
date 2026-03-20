@@ -1,3 +1,4 @@
+```
 edi-parser-project/
 │
 ├── backend/
@@ -94,3 +95,4 @@ edi-parser-project/
 │
 ├── docker-compose.yml
 ├── README.md
+```
