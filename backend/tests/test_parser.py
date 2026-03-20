@@ -2,7 +2,7 @@ from app.parser.edi_parser import EDIParser
 from app.services.detection import detect_transaction_type
 from app.validator.rule_engine import validate_segments
 
-with open("tests/sample-data/sample_835.edi", "r") as f:
+with open("tests/sample-data/invalid_837.edi", "r") as f:
     content = f.read()
 
 parser = EDIParser()
@@ -16,3 +16,13 @@ errors = validate_segments(segments)
 
 for err in errors:
     print(err.to_dict())
+
+
+from app.services.fix_engine import apply_fixes
+
+errors = validate_segments(segments)
+fixed = apply_fixes(errors)
+
+print("\n=== FIX SUGGESTIONS ===")
+for f in fixed:
+    print(f)
