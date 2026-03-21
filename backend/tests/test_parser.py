@@ -36,3 +36,20 @@ fixed = apply_fixes(errors)
 print("\n=== FIX SUGGESTIONS ===")
 for f in fixed:
     print(f)
+
+
+
+
+
+print("\n\n=== AI ===")
+from app.services.fix_engine import apply_fixes
+from app.validator.rule_engine import validate_segments
+from app.ai.ai_service import explain_errors
+
+errors = validate_segments(segments)
+fixed = apply_fixes(errors)
+
+ai_output = explain_errors(fixed)
+
+for item in ai_output:
+    print(item)
