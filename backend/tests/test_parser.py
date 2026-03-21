@@ -2,7 +2,7 @@ from app.parser.edi_parser import EDIParser
 from app.services.detection import detect_transaction_type
 from app.validator.rule_engine import validate_segments
 
-with open("tests/sample-data/sample_834.edi", "r") as f:
+with open("tests/sample-data/invalid_837.edi", "r") as f:
     content = f.read()
 
 parser = EDIParser()
