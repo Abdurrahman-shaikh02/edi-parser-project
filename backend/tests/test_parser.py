@@ -40,7 +40,7 @@ for f in fixed:
 
 
 
-
+'''
 print("\n\n=== AI ===")
 from app.services.fix_engine import apply_fixes
 from app.validator.rule_engine import validate_segments
@@ -53,3 +53,5 @@ ai_output = explain_errors(fixed)
 
 for item in ai_output:
     print(item)
+
+'''
