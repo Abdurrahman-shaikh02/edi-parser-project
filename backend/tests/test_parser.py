@@ -2,13 +2,23 @@ from app.parser.edi_parser import EDIParser
 from app.services.detection import detect_transaction_type
 from app.validator.rule_engine import validate_segments
 
-with open("tests/sample-data/invalid_837.edi", "r") as f:
+with open("tests/sample-data/sample_834.edi", "r") as f:
     content = f.read()
 
 parser = EDIParser()
 segments = parser.parse(content)
+json_segments = parser.parse_to_json(content)
 
-print("=== DETECTION ===")
+print("\n=== PARSER ===")
+for seg in segments:
+    print(seg)
+
+
+print("\n=== PARSER (JSON) ===")
+for seg in json_segments:
+    print(seg)
+
+print("\n=== DETECTION ===")
 print(detect_transaction_type(segments))
 
 print("\n=== VALIDATION ===")
